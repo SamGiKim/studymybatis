@@ -101,11 +101,11 @@ public class CategoryServiceImpl implements ICategoryService{
         if (findName == null || findName.isEmpty()) {
             return new ArrayList<>();
         }
-//        List<CategoryEntity> list = this.categoryMybatisMapper.findAllByNameContains(findName);
-//        List<ICategory> result = new ArrayList<>();
-//        for(CategoryEntity item : list){
-//            result.add((ICategory) item);
-//        }
-        return null;
+        List<CategoryDto> list = this.categoryMybatisMapper.findAllByNameContains(findName);
+        List<ICategory> result = new ArrayList<>();
+        for(CategoryDto item : list){
+            result.add((ICategory) item);
+        }
+        return result;
     }
 }
