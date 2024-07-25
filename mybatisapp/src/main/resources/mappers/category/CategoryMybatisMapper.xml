@@ -38,11 +38,13 @@
         FROM category_tbl
     </select>
 
-    <select id="findAllByNameContains" resultType="CategoryDto">
+    <select id="findAllByNameContains" parameterType="SearchCategoryDto" resultType="CategoryDto">
         SELECT
-            id, NAME
+            id, name
         FROM category_tbl
-        WHERE name like '%${name}%'
+        WHERE name like CONCAT('%',#{name},'%')
+        ORDER BY ${orderByWord}
+        LIMIT #{rowsOnePage} OFFSET #{firstIndex}
     </select>
 
 

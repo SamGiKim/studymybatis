@@ -15,13 +15,13 @@ import java.util.List;
 
 
 public class CategoryController {
-    private static Logger logger = LoggerFactory.getLogger(CategoryController.class);
+    private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
     @Autowired
     private CategoryServiceImpl categoryService;
 
     @PostMapping
-    public ResponseEntity<ICategory> insertC(@RequestBody CategoryRequest dto){
+    public ResponseEntity<ICategory> insert(@RequestBody CategoryDto dto){
         try{
             if (dto==null) {
                 return ResponseEntity.badRequest().build();
@@ -54,7 +54,7 @@ public class CategoryController {
             if (id == null) {
                 return ResponseEntity.badRequest().build();
             }
-            boolean result = this.categoryService.remove(id);
+            Boolean result = this.categoryService.delete(id);
             return ResponseEntity.ok(result);
         } catch (Exception ex) {
             logger.error(ex.toString());
@@ -63,7 +63,7 @@ public class CategoryController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ICategory> update(@PathVariable Long id, @RequestBody CategoryRequest dto) {
+    public ResponseEntity<ICategory> update(@PathVariable Long id, @RequestBody CategoryDto dto) {
         try {
             if (id == null || dto == null) {
                 return ResponseEntity.badRequest().build();
@@ -102,7 +102,9 @@ public class CategoryController {
             if (name == null || name.isEmpty()) {
                 return ResponseEntity.badRequest().build();
             }
-            List<ICategory> result = this.categoryService.getListFromName(name);
+            SearchCategoryDto searchCategoryDto = SearchCategoryDto.builder()
+                    .name(name).page(1).build();
+            List<ICategory> result = this.categoryService.findAllByNameContains(searchCategoryDto);
             if (result == null || result.size() <= 0) {
                 return ResponseEntity.notFound().build();
             }
