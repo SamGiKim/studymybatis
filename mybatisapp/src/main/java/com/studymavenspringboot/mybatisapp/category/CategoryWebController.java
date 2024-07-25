@@ -2,7 +2,6 @@ package com.studymavenspringboot.mybatisapp.category;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +32,8 @@ public class CategoryWebController {
         return "oldhtml/category_old";
     }
 
-    @PostMapping("/oldhtml/category_old_act")
-    public String cateogryOldAct(@ModelAttribute CategoryDto dto){
+    @PostMapping("/oldhtml/category_old_insert")
+    public String cateogryOldInsert(@ModelAttribute CategoryDto dto){
         try{
             if(dto==null || dto.getName() == null || dto.getName().isEmpty()){
                 return "redirect:category_old";

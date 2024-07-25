@@ -56,9 +56,6 @@ public class CategoryServiceImpl implements ICategoryService{
             return null;
         }
         CategoryDto dto = new CategoryDto();
-        // 매개변수에서 받은 클래스의 필드값을 엔티티 클래스의 필드값으로 복붙
-        // 엔티티로 변경하는 이유는 데이터베이스 테이블의 구조에 접근하기 위함
-        // 실직적으로 데이터베이스에 접근할 수 있는 클래스는 엔티티 뿐?
         dto.copyFields(category);
         dto.setId(0L);
         this.categoryMybatisMapper.insert(dto);
@@ -91,9 +88,7 @@ public class CategoryServiceImpl implements ICategoryService{
         if(name == null || name.isEmpty()){
             return new ArrayList<>();
         }
-        return this.getICategoryList(
-                this.categoryMybatisMapper.findAllByNameContains(name)
-        );
+        return this.getICategoryList(this.categoryMybatisMapper.findAllByNameContains(name));
     }
 
     @Override
