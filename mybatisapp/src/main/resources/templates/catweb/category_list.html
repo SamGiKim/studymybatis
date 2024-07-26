@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Old Html</title>
+    <title>Catweb Html</title>
     <link rel="stylesheet" href="/mazer/assets/compiled/css/app.css">
     <link rel="stylesheet" href="/mazer/assets/compiled/css/app-dark.css">
     <link rel="stylesheet" href="/mazer/assets/compiled/css/iconly.css">
@@ -12,7 +12,7 @@
             let totPage = ([[${searchCategoryDto.total}]] + 9) / 10;
             let searchName = "[[${searchCategoryDto.name}]]";
             for (let i = 1; i <= totPage; i++) {
-                $("#pageDiv").append(" <a href='category_old?page=" + i +
+                $("#pageDiv").append(" <a href='category_list?page=" + i +
                     "&name=" + searchName + "'>[" + i + "]</a> ");
             }
         });
@@ -32,24 +32,50 @@
         #pageDiv a:hover {
             background-color: #000000;
         }
+
+        #pageDiv {
+            text-align: center; /* 가운데 정렬 */
+        }
+
+        #addButton {
+            display: inline-block;
+            background-color: #25cff2;
+            color: white;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .button-container {
+            text-align: right; /* 오른쪽 정렬 */
+        }
+
+        #searchbtn {
+            display: inline-block;
+            background-color: #25cff2;
+            color: white;
+            padding: 10px 12px;
+            margin: 5px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
     </style>
 </head>
 <body>
-
-<form id="form" name="form" method="post" action="/ctw/oldhtml/category_old_insert">
-    <label for="id"></label><input type="number" id="id" name="id"/>
-    <label for="name"></label><input type="text" id="name" name="name"/>
-    <input type="submit" value="전송"/>
-    <input type="reset" value="취소"/>
+<form>
+    <div>이름</div>
+    <input type="text"  />
+    <a href="catweb/catweb/category_list" id="searchbtn">검색</a>
 </form>
-<div>
-    Category List
-</div>
 <section id="content-types">
     <div class="row">
         <div class="col-xl-4 col-md-6 col-sm-12" th:each="item : ${itemList}">
             <div class="card">
-                <a th:href="@{/ctw/oldhtml/category_old_view(id=${item.id})}">
+                <a th:href="@{catweb/catweb_insert(id=${item.id})}">
                     <div class="card-content">
                         <div class="card-body" th:text="${item.id}"></div>
                         <div class="card-text" th:text="${item.name}"></div>
@@ -59,23 +85,12 @@
         </div>
     </div>
 </section>
-<div id="pageDiv">
+<div class="button-container">
+    <a id="addButton" href="category_insert">추가</a>
 </div>
 [(${pageHtml})]
 <div>total : [[${searchCategoryDto.total}]], page : [[${searchCategoryDto.page}]], search name = [[${searchCategoryDto.name}]]</div>
-<ul id="categoryList">
-    <li>
-        <span>id</span>
-        <span> : </span>
-        <span>name</span>
-    </li>
-    <li th:each="item : ${allList}">
-        <a th:href="@{/ctweb/oldhtml/category_old_view(id=${item.id})}">
-            <span th:text="${item.id}"></span>
-            <span> : </span>
-            <span th:text="${item.name}"></span>
-        </a>
-    </li>
-</ul>
+<div id="pageDiv">
+</div>
 </body>
 </html>
