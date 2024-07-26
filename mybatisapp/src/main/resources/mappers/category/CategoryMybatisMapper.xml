@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.studymavenspringboot.mybatisapp.category.CategoryMybatisMapper">
 
     <insert id="insert" parameterType="CategoryDto" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO category_tbl( name )
-        VALUES ( #{name} )
+        INSERT INTO category_tbl(name)
+        VALUES(#{name})
     </insert>
 
     <update id="update" parameterType="CategoryDto">
-        UPDATE category_tbl
-        SET name = #{name}
+        UPDATE category_tbl SET name = #{name}
         WHERE id = #{id}
     </update>
 
@@ -19,36 +19,37 @@
     </delete>
 
     <select id="findById" resultType="CategoryDto">
-        SELECT
-            id, name
+        SELECT id
+             , name
         FROM category_tbl
         WHERE id = #{id}
     </select>
 
     <select id="findByName" resultType="CategoryDto">
-        SELECT
-            id, name
+        SELECT id
+             , name
         FROM category_tbl
         WHERE name = #{name}
     </select>
 
     <select id="findAll" resultType="CategoryDto">
-        SELECT
-            id, name
+        SELECT id
+             , name
         FROM category_tbl
     </select>
 
+    <select id="countAllByNameContains" parameterType="SearchCategoryDto" resultType="int">
+        SELECT count(*)
+        FROM category_tbl
+        WHERE name like CONCAT('%',#{name},'%')
+    </select>
+
     <select id="findAllByNameContains" parameterType="SearchCategoryDto" resultType="CategoryDto">
-        SELECT
-            id, name
+        SELECT id
+             , name
         FROM category_tbl
         WHERE name like CONCAT('%',#{name},'%')
         ORDER BY ${orderByWord}
         LIMIT #{rowsOnePage} OFFSET #{firstIndex}
     </select>
-
-
-
-
-
 </mapper>

@@ -8,11 +8,7 @@
     <link rel="stylesheet" href="/mazer/assets/compiled/css/iconly.css">
     <script language="JavaScript" src="/js/jquery-3.7.1.min.js"></script>
     <script>
-        //$(document).ready(function(){
-        //    // Jquery 는 html 문서가 로딩이 완료 되면 이 부분을 실행한다.
-        //});
         $(function(){
-            // jQuery 3.0 버전부터 실행할 기능을 정의해주세요.
             let totPage = ([[${searchCategoryDto.total}]] + 9) / 10;
             let searchName = "[[${searchCategoryDto.name}]]";
             for (let i = 1; i <= totPage; i++) {
@@ -21,6 +17,22 @@
             }
         });
     </script>
+    <style>
+        #pageDiv a {
+            display: inline-block;
+            background-color: #25cff2;
+            color: white;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        #pageDiv a:hover {
+            background-color: #000000;
+        }
+    </style>
 </head>
 <body>
 
@@ -30,9 +42,9 @@
     <input type="submit" value="전송"/>
     <input type="reset" value="취소"/>
 </form>
-    <div>
-        Category List
-    </div>
+<div>
+    Category List
+</div>
 <section id="content-types">
     <div class="row">
         <div class="col-xl-4 col-md-6 col-sm-12" th:each="item : ${itemList}">
@@ -42,28 +54,28 @@
                         <div class="card-body" th:text="${item.id}"></div>
                         <div class="card-text" th:text="${item.name}"></div>
                     </div>
-                    </a>
-                </div>
+                </a>
             </div>
         </div>
-    </section>
-    <div id="pageDiv">
     </div>
-    [(${pageHtml})]
-    <div>total : [[${searchCategoryDto.total}]], page : [[${searchCategoryDto.page}]], search name = [[${searchCategoryDto.name}]]</div>
-    <ul id="categoryList">
-        <li>
-            <span>id</span>
+</section>
+<div id="pageDiv">
+</div>
+[(${pageHtml})]
+<div>total : [[${searchCategoryDto.total}]], page : [[${searchCategoryDto.page}]], search name = [[${searchCategoryDto.name}]]</div>
+<ul id="categoryList">
+    <li>
+        <span>id</span>
+        <span> : </span>
+        <span>name</span>
+    </li>
+    <li th:each="item : ${allList}">
+        <a th:href="@{/ctweb/oldhtml/category_old_view(id=${item.id})}">
+            <span th:text="${item.id}"></span>
             <span> : </span>
-            <span>name</span>
-        </li>
-        <li th:each="item : ${allList}">
-            <a th:href="@{/ctweb/oldhtml/category_old_view(id=${item.id})}">
-                <span th:text="${item.id}"></span>
-                <span> : </span>
-                <span th:text="${item.name}"></span>
-            </a>
-        </li>
-    </ul>
+            <span th:text="${item.name}"></span>
+        </a>
+    </li>
+</ul>
 </body>
 </html>
