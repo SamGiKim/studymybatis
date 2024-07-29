@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="https://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Insert</title>
+    <title>Category 보기</title>
 </head>
 <body>
-    insert
+<form id="form" name="form" method="post" action="/catweb/catweb_update" th:object="${categoryDto}">
+    <input type="number" th:field="*{id}" readonly />
+    <input type="text" th:field="*{name}" />
+    <input type="submit" value="수정" />
+    <input type="reset" value="원복" />
+    <a th:href="@{/catweb/catweb_delete(id=*{id})}">삭제</a>
+</form>
 </body>
 </html>

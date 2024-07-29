@@ -19,7 +19,7 @@ public class CatWebController {
     public String indexHome(){
         return "index";
     }
-    @GetMapping("/catweb/category_list")
+    @GetMapping("/category_list")
     public String catwebList(Model model, @RequestParam String name, @RequestParam int page) {
         try {
             if (name == null) {
@@ -57,7 +57,7 @@ public class CatWebController {
         return sResult.toString();
     }
 
-    @PostMapping("/catweb/catweb_update")
+    @PostMapping("/catweb_update")
     public String catwebUpdate(@ModelAttribute CategoryDto dto, Model model){
         try{
             if(dto==null || dto.getId() <= 0 || dto.getName().isEmpty()){
@@ -78,7 +78,7 @@ public class CatWebController {
         return "redirect:category_list?page=1&name=";
     }
 
-    @GetMapping("/catweb/catweb_insert")
+    @GetMapping("/catweb_insert")
     public String catwebInsert(Model model, @RequestParam Long id) {
         try {
             if ( id == null || id <= 0 ) {
@@ -99,4 +99,24 @@ public class CatWebController {
         return "catweb/catweb_insert";
     }
 
+    @GetMapping("/catweb_delete")
+    public String categoryDelete(@RequestParam Long id, Model model){
+        try{
+            if(id==null || id <= 0){
+                model.addAttribute("error_message", "id는 1보다 커야합니다.");
+                return "error/error_bad";
+            }
+            ICategory find = this.categoryService.findById(id);
+            if (find == null) {
+                model.addAttribute("error_message", id + " 데이터가 없습니다.");
+                return "error/error_find";
+            }
+            this.categoryService.delete(id);
+        } catch (Exception ex){
+            log.error(ex.toString());
+            model.addAttribute("error_message", "서버 에러입니다. 관리자에게 문의 하세요.");
+            return "error/error_save";
+        }
+        return "redirect:category_list?page=1&name=";
+    }
 }
