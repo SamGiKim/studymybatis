@@ -15,6 +15,13 @@
                 $("#pageDiv").append(" <a href='category_list?page=" + i +
                     "&name=" + searchName + "'>[" + i + "]</a> ");
             }
+
+            $("#searchbtn").click(function() {
+                let page = "[[${searchCategoryDto.page}]]";
+                let name = $("#name").val();
+                let url = "category_list?page=" + page + "&name=" + name;
+                document.location.href = url;
+            })
         });
     </script>
     <style>
@@ -34,7 +41,7 @@
         }
 
         #pageDiv {
-            text-align: center; /* 가운데 정렬 */
+            text-align: center;
         }
 
         #addButton {
@@ -49,7 +56,7 @@
         }
 
         .button-container {
-            text-align: right; /* 오른쪽 정렬 */
+            text-align: right;
         }
 
         #searchbtn {
@@ -63,30 +70,42 @@
             transition: background-color 0.3s;
         }
 
+        fieldset {
+            border: none;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        #name {
+            width: calc(100% - 120px);
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
-<form>
-    <div>이름</div>
-    <input type="text"  />
-    <a href="catweb/catweb/category_list" id="searchbtn">검색</a>
-</form>
-<section id="content-types">
-    <div class="row">
-        <div class="col-xl-4 col-md-6 col-sm-12" th:each="item : ${itemList}">
-            <div class="card">
-                <a th:href="@{catweb/catweb_insert(id=${item.id})}">
-                    <div class="card-content">
-                        <div class="card-body" th:text="${item.id}"></div>
-                        <div class="card-text" th:text="${item.name}"></div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
+<fieldset>
+    <label for="name">이름</label>
+    <input type="text" id="name" name="name" th:value="${searchCategoryDto.name}"/>
+    <button id="searchbtn">검색</button>
+</fieldset>
+<ul id="categoryList">
+    <li>
+        <span>id</span>
+        <span> : </span>
+        <span>name</span>
+    </li>
+    <li th:each="item : ${itemList}">
+        <a th:href="@{/catweb/category_list(id=${item.id})}">
+            <span th:text="${item.id}"></span>
+            <span> : </span>
+            <span th:text="${item.name}"></span>
+        </a>
+    </li>
+</ul>
 <div class="button-container">
-    <a id="addButton" href="category_insert">추가</a>
+    <a id="addButton" href="category_add">추가</a>
 </div>
 [(${pageHtml})]
 <div>total : [[${searchCategoryDto.total}]], page : [[${searchCategoryDto.page}]], search name = [[${searchCategoryDto.name}]]</div>

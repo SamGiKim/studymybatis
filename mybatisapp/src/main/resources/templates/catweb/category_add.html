@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert</title>
+    <link rel="stylesheet" href="/mazer/assets/compiled/css/app.css">
+    <link rel="stylesheet" href="/mazer/assets/compiled/css/app-dark.css">
+    <link rel="stylesheet" href="/mazer/assets/compiled/css/iconly.css">
+    <script language="JavaScript" src="/js/jquery-3.7.1.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            display: block;
+            margin-bottom: 0px;
+            position: absolute;
+            top: 20px;
+        }
+
+        .namebox {
+            border: 2px solid #25cff2;
+            border-radius: 10px;
+            padding: 8px;
+            background-color: #f5faff;
+            text-align: center;
+        }
+
+        .headbox{
+            border: 2px solid #25cff2;
+            border-radius: 10px;
+            padding: 8px;
+            background-color: #f5faff;
+            width: 800px;
+            text-align: center;
+        }
+
+        #form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .input-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 70px;
+        }
+
+        .nametag {
+            width: 70px;
+            height: 40px;
+            font-size: 20px;
+            line-height: 40px;
+            margin-right: 10px;
+        }
+
+        #name {
+            width: 300px;
+            height: 40px;
+            padding: 5px;
+            font-size: 20px;
+        }
+
+        .left-button {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+        }
+        .right-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+        input[type="submit"], input[type="reset"] {
+            background-color: #25cff2;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function confirmSubmission(event) {
+            event.preventDefault();
+            const name = document.getElementById("name").value;
+            if (name.trim() === "") {
+                alert("이름을 입력해 주세요.");
+            } else {
+                const confirmation = confirm(name + "를 추가하시겠습니까?");
+                if (confirmation) {
+                    document.getElementById("form").submit();
+                }
+            }
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+    </script>
+</head>
+<body>
+<h1 class="headbox">분류 추가</h1>
+<form id="form" name="form" method="post" action="/catweb/category_insert" th:object="${categoryDto}">
+    <div class="input-container">
+        <label class="nametag namebox"  for="name">이름</label>
+        <input type="text" th:field="*{name}" id="name" placeholder="추가할 이름 입력" required />
+    </div>
+    <div class="left-button">
+        <input type="reset" value="뒤로가기" onclick="goBack()"/>
+    </div>
+
+    <div class="right-button">
+        <input type="submit" value="추가" onclick="confirmSubmission(event)" />
+    </div>
+</form>
+</body>
+</html>
