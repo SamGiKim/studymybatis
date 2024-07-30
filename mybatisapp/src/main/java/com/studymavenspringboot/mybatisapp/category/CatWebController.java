@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.model.IModel;
 
 import java.util.List;
 
@@ -43,7 +44,6 @@ public class CatWebController {
     @GetMapping("/category_add")
     public String categoryAdd(Model model) {
         model.addAttribute("categoryDto", new CategoryDto());
-        // 카테고리 추가화면 템플릿엔진에서 출력
         return "catweb/category_add";
     }
     @PostMapping("/category_insert")
@@ -62,29 +62,28 @@ public class CatWebController {
         return "redirect:category_list?page=1&name=";
     }
 
-    @PostMapping("/catweb_update")
-    public String catwebUpdate(@ModelAttribute CategoryDto dto, Model model){
-        try{
-            if(dto==null || dto.getId() <= 0 || dto.getName().isEmpty()){
-                model.addAttribute("error_message", "id는 1보다 커야하고, name이 있어야합니다.");
-                return "error/error_bad";
-            }
-            ICategory find = this.categoryService.findById(dto.getId());
-            if (find == null) {
-                model.addAttribute("error_message", dto.getId() + " 데이터가 없습니다.");
-                return "error/error_find";
-            }
+    @GetMapping("/category_view")
+    public String categoryView(Model model, @RequestParam Long id) {
+        try {
+            ICategory categoryDto = this.categoryService.findById(id);
+            model.addAttribute("categoryDto", categoryDto);
+        } catch (Exception ex) {
+            log.error(ex.toString());
+        }
+        return "catweb/category_view";
+    }
+
+    @PostMapping("/category_update")
+    public String categoryUpdate(@ModelAttribute CategoryDto dto) {
+        try {
             this.categoryService.update(dto.getId(), dto);
         } catch (Exception ex) {
             log.error(ex.toString());
-            model.addAttribute("error_message", dto.getName() + " 중복입니다.");
-            return "error/error_save";
         }
         return "redirect:category_list?page=1&name=";
     }
 
-
-    @GetMapping("/catweb_delete")
+    @PostMapping("/category_delete")
     public String categoryDelete(@RequestParam Long id, Model model){
         try{
             if(id==null || id <= 0){

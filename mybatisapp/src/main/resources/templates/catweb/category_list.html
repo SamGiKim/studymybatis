@@ -97,7 +97,7 @@
         <span>name</span>
     </li>
     <li th:each="item : ${itemList}">
-        <a th:href="@{/catweb/category_list(id=${item.id})}">
+        <a th:href="@{/catweb/category_view(id=${item.id})}">
             <span th:text="${item.id}"></span>
             <span> : </span>
             <span th:text="${item.name}"></span>
